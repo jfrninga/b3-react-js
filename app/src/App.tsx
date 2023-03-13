@@ -1,7 +1,7 @@
 // App.tsx
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { Login, loginAction } from './screens/Login'
-import { addPostAction, Feed, feedLoader } from './screens/Feed'
+import { addPostAction, Feed } from './screens/Feed'
 import { Register, registerAction } from './screens/Register'
 import { ErrorPage } from './components/ErrorPage'
 import { AppLayout } from './components/AppLayout'
@@ -13,6 +13,7 @@ import {
 import { addEventAction, Events, eventsLoader } from './screens/Events'
 import { UserProfile } from './screens/UserProfile/UserProfile'
 import { UserProfileError } from './screens/UserProfile/UserProfileError'
+import { deleteEventAction, Event, eventLoader, updateEventAction } from './screens/Event'
 
 // Define the routing and how react router should behave according to
 // the current URL of the browser.
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     errorElement: <ErrorPage />,
+    loader: userProfileLoader,
     element: <AppLayout />,
 
     // If we're logged and trying to access any page bellow,
@@ -40,7 +42,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        loader: feedLoader,
+        // loader: feedLoader,
         action: addPostAction,
         element: <Feed />,
       },
@@ -63,6 +65,19 @@ const router = createBrowserRouter([
         loader: eventsLoader,
         action: addEventAction,
         element: <Events />,
+      },
+      {
+        path: '/event/:eventId',
+        loader: eventLoader,
+        action: updateEventAction,
+        element: <Event />,
+        children: [
+          {
+            path: '/event/:eventId/delete',
+            action: deleteEventAction,
+            errorElement: <div>Oops, cannot delete event</div>,
+          },
+        ],
       },
     ],
   },
