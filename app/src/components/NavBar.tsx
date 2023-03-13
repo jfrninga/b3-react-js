@@ -26,6 +26,7 @@ export function NavBar() {
         style={{
           color: 'white',
           textDecoration: 'none',
+          marginLeft: '2rem',
         }}
       >
         Events
@@ -35,6 +36,8 @@ export function NavBar() {
         style={{
           color: 'white',
           textDecoration: 'none',
+          marginLeft: '2rem',
+          marginRight: '2rem',
         }}
       >
         Profile

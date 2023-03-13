@@ -33,19 +33,33 @@ export async function createUser(email: string, name: string) {
   })
 }
 
-export function updateUser(id: string, email: string, name: string) {
+export function updateUser(
+  id: string,
+  data: {
+    email: string
+    name: string
+    photoURL?: string
+  },
+) {
   return prisma.user.update({
     where: {
       id,
     },
-    data: {
-      email,
-      name,
-    },
+    data,
   })
 }
 
-export function deleteUser(id: string) {
+export async function deleteUser(id: string) {
+  await prisma.event.deleteMany({
+    where: {
+      createdById: id,
+    },
+  })
+  await prisma.post.deleteMany({
+    where: {
+      createdById: id,
+    },
+  })
   return prisma.user.delete({
     where: {
       id,
